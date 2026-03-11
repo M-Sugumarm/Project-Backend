@@ -1,0 +1,11 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+*.gz
+/src/main/resources/firebase-service-account.json
+.DS_Store
+.idea/
+*.iml
+.vscode/
+.antigravityignore

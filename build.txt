@@ -1,0 +1,56 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.whitehouse:whitehouse-backend >------------------
+[INFO] Building White House E-Commerce Backend 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ whitehouse-backend ---
+[INFO] Deleting E:\Textiles-E_Com\whitehouse-backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ whitehouse-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ whitehouse-backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 54 source files with javac [debug release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/repository/ReviewRepository.java:[4,51] package org.springframework.data.mongodb.repository does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/repository/ReviewRepository.java:[10,43] cannot find symbol
+  symbol: class MongoRepository
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[4,43] package org.springframework.data.annotation does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[5,53] package org.springframework.data.mongodb.core.mapping does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[9,2] cannot find symbol
+  symbol: class Document
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[11,6] cannot find symbol
+  symbol:   class Id
+  location: class com.whitehouse.model.Review
+[INFO] 6 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.398 s
+[INFO] Finished at: 2026-03-11T09:14:22+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project whitehouse-backend: Compilation failure: Compilation failure: 
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/repository/ReviewRepository.java:[4,51] package org.springframework.data.mongodb.repository does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/repository/ReviewRepository.java:[10,43] cannot find symbol
+[ERROR]   symbol: class MongoRepository
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[4,43] package org.springframework.data.annotation does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[5,53] package org.springframework.data.mongodb.core.mapping does not exist
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[9,2] cannot find symbol
+[ERROR]   symbol: class Document
+[ERROR] /E:/Textiles-E_Com/whitehouse-backend/src/main/java/com/whitehouse/model/Review.java:[11,6] cannot find symbol
+[ERROR]   symbol:   class Id
+[ERROR]   location: class com.whitehouse.model.Review
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
