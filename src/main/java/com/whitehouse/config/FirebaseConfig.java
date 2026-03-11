@@ -19,13 +19,13 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class FirebaseConfig {
 
-    @Value("${firebase.service-account}")
-    private Resource serviceAccount;
+    @Value("${firebase.service-account:#{null}}")
+    private String serviceAccountPath;
 
     @Value("${firebase.project-id}")
     private String projectId;
 
-    @Value("${firebase.credentials.json:#{null}}")
+    @Value("${FIREBASE_CREDENTIALS:#{null}}")
     private String firebaseCredentialsJson;
 
     @PostConstruct
@@ -37,10 +37,17 @@ public class FirebaseConfig {
                 // Use environment variable string (for cloud deployment)
                 credentialsStream = new ByteArrayInputStream(firebaseCredentialsJson.getBytes(StandardCharsets.UTF_8));
                 System.out.println("Initializing Firebase using FIREBASE_CREDENTIALS environment variable...");
+            } else if (serviceAccountPath != null && !serviceAccountPath.trim().isEmpty()) {
+                // Fallback to local file if provided
+                try {
+                    credentialsStream = new java.io.FileInputStream(serviceAccountPath.replace("classpath:", "src/main/resources/"));
+                    System.out.println("Initializing Firebase using local service-account file: " + serviceAccountPath);
+                } catch (IOException e) {
+                    System.err.println("Failed to load local Firebase credentials from: " + serviceAccountPath);
+                    throw e;
+                }
             } else {
-                // Fallback to local file
-                credentialsStream = serviceAccount.getInputStream();
-                System.out.println("Initializing Firebase using local service-account file fallback...");
+                throw new IOException("No Firebase credentials provided (FIREBASE_CREDENTIALS env var or firebase.service-account property)");
             }
 
             FirebaseOptions options = FirebaseOptions.builder()
