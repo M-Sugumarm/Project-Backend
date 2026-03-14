@@ -55,6 +55,7 @@ public class FirebaseConfig {
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(credentialsStream))
                     .setProjectId(projectId)
+                    .setStorageBucket(projectId + ".appspot.com")
                     .build();
 
             FirebaseApp.initializeApp(options);
@@ -69,6 +70,6 @@ public class FirebaseConfig {
 
     @Bean
     public Storage storage() {
-        return StorageClient.getInstance().getStorage();
+        return StorageClient.getInstance().bucket().getStorage();
     }
 }
