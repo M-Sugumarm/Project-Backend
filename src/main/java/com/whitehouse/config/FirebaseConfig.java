@@ -33,26 +33,17 @@ public class FirebaseConfig {
     @Value("${FIREBASE_CREDENTIALS:#{null}}")
     private String firebaseCredentialsJson;
 
-    @PostConstruct
-    public void initialize() throws IOException {
+    @Bean
+    public FirebaseApp firebaseApp() throws IOException {
         if (FirebaseApp.getApps().isEmpty()) {
             InputStream credentialsStream;
             
             if (firebaseCredentialsJson != null && !firebaseCredentialsJson.trim().isEmpty()) {
-                // Use environment variable string (for cloud deployment)
                 credentialsStream = new ByteArrayInputStream(firebaseCredentialsJson.getBytes(StandardCharsets.UTF_8));
-                System.out.println("Initializing Firebase using FIREBASE_CREDENTIALS environment variable...");
             } else if (serviceAccountPath != null && !serviceAccountPath.trim().isEmpty()) {
-                // Fallback to local file if provided
-                try {
-                    credentialsStream = new java.io.FileInputStream(serviceAccountPath.replace("classpath:", "src/main/resources/"));
-                    System.out.println("Initializing Firebase using local service-account file: " + serviceAccountPath);
-                } catch (IOException e) {
-                    System.err.println("Failed to load local Firebase credentials from: " + serviceAccountPath);
-                    throw e;
-                }
+                credentialsStream = new java.io.FileInputStream(serviceAccountPath.replace("classpath:", "src/main/resources/"));
             } else {
-                throw new IOException("No Firebase credentials provided (FIREBASE_CREDENTIALS env var or firebase.service-account property)");
+                throw new IOException("No Firebase credentials provided");
             }
 
             FirebaseOptions options = FirebaseOptions.builder()
@@ -61,18 +52,22 @@ public class FirebaseConfig {
                     .setStorageBucket(storageBucket)
                     .build();
 
-            FirebaseApp.initializeApp(options);
-            System.out.println("Firebase initialized successfully for project: " + projectId);
+            return FirebaseApp.initializeApp(options);
         }
+        return FirebaseApp.getInstance();
     }
 
     @Bean
-    public Firestore firestore() {
-        return FirestoreClient.getFirestore();
+    public Firestore firestore(FirebaseApp firebaseApp) {
+        return FirestoreClient.getFirestore(firebaseApp);
     }
 
     @Bean
-    public Storage storage() {
-        return StorageClient.getInstance().bucket(storageBucket).getStorage();
+    public Storage storage(FirebaseApp firebaseApp) {
+        return com.google.cloud.storage.StorageOptions.newBuilder()
+                .setCredentials(firebaseApp.getOptions().getCredentials())
+                .setProjectId(firebaseApp.getOptions().getProjectId())
+                .build()
+                .getService();
     }
 }
