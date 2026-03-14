@@ -19,12 +19,11 @@ public class FileService {
     @Autowired
     private Storage storage;
 
-    @Value("${firebase.project-id}")
-    private String projectId;
+    @Value("${firebase.storage-bucket}")
+    private String bucketName;
 
     public String uploadFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-        String bucketName = projectId + ".appspot.com";
         
         Bucket bucket = storage.get(bucketName);
         if (bucket == null) {
