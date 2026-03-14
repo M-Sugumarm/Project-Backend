@@ -63,10 +63,19 @@ public class FirebaseConfig {
     }
 
     @Bean
-    public Storage storage(FirebaseApp firebaseApp) {
+    public Storage storage() throws IOException {
+        InputStream credentialsStream;
+        if (firebaseCredentialsJson != null && !firebaseCredentialsJson.trim().isEmpty()) {
+            credentialsStream = new ByteArrayInputStream(firebaseCredentialsJson.getBytes(StandardCharsets.UTF_8));
+        } else if (serviceAccountPath != null && !serviceAccountPath.trim().isEmpty()) {
+            credentialsStream = new java.io.FileInputStream(serviceAccountPath.replace("classpath:", "src/main/resources/"));
+        } else {
+            return com.google.cloud.storage.StorageOptions.getDefaultInstance().getService();
+        }
+
         return com.google.cloud.storage.StorageOptions.newBuilder()
-                .setCredentials(firebaseApp.getOptions().getCredentials())
-                .setProjectId(firebaseApp.getOptions().getProjectId())
+                .setCredentials(GoogleCredentials.fromStream(credentialsStream))
+                .setProjectId(projectId)
                 .build()
                 .getService();
     }
