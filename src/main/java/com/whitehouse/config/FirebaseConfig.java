@@ -5,6 +5,8 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.cloud.StorageClient;
+import com.google.cloud.storage.Storage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,5 +65,10 @@ public class FirebaseConfig {
     @Bean
     public Firestore firestore() {
         return FirestoreClient.getFirestore();
+    }
+
+    @Bean
+    public Storage storage() {
+        return StorageClient.getInstance().getStorage();
     }
 }
